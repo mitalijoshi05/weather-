@@ -1,0 +1,94 @@
+<html>
+
+<head>
+ 
+ <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+ 
+ <title>whether</title>
+  
+ <link rel="stylesheet" href="wstyle.css">
+
+
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+  
+<div class="container">
+	<div class="search-box">
+		<i class='bx bxs-map'></i>
+		<input type="text" placeholder="enter your location">
+		<button class="bx bx-search"></button>
+	</div>
+	<div class="weather-box">
+		<div class="box">
+			<div class="info_weather">
+				<div class="weather">
+					<img src="clouds.png">
+					<p class="temperature">0 <span> °C </span>  </p>
+					<p class="description"> clouds </p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="weather-details">
+		<div class="humidity">
+			<i class='bx bx-water' ></i>
+			<div class="text">
+				<div class="info-humidity">
+					<span> 0% </span>
+				</div>
+				<p>humidity </p>
+			</div>
+		</div>
+		<div class="wind">
+			<i class='bx bx-wind' ></i>
+			<div class="text">
+				<div class="info-wind">
+					<span> 0km/h </span>
+				</div>
+				<p>wind speed </p>
+			</div>
+		</div>
+					
+
+</div>
+<script > 
+	const apiKey="8959114527b34ef9089501ca2ad2f396";
+	const apiUpi="https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+	const searchBox = document.querySelector(".search-box input");
+	const searchBtn = document.querySelector(".search-box button");
+	const weatherIcon = document.querySelector(".weather-icon");
+
+	async function checkWeather(city){
+		const response = await fetch(apiUpi + city + '&appid=$(apiKey)');
+		var data = await response.json();
+
+		console.log(data);
+		
+		document.querySelector(".city").innerHTML = data.name;
+		document.querySelector(".temperature").innerHTML = Math.round( data.main.temp) + "°C";
+		document.querySelector(".humidity").innerHTML = data.main.humidity +"%";
+		document.querySelector(".wind").innerHTML = data.wind.speed +"km/h";
+
+		if(data.weather[0].main == "clouds"){
+			weatherIcon.src="images/clouds.png";
+		}
+		else if(data.weather[0].main == "sub"){
+			weatherIcon.src="images/sun.png";
+		}
+		else if(data.weather[0].main == "rain"){
+			weatherIcon.src="images/rain.png";
+		}
+		else if(data.weather[0].main == "thunder"){
+			weatherIcon.src="images/thunder.png";
+		}
+
+	}
+
+	searchBtn. addEventListener("click",()=> {
+		checkWeather(searchBox.value);
+	})
+	
+</script>
